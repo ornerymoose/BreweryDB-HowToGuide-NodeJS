@@ -272,7 +272,7 @@
                     <p>
                         <code>
                             app.get('/beer/:id/ingredients', function(req, res){<br>
-                            &nbsp;request("https://api.brewerydb.com/v2/beer/" + req.params.id + "/ingredients?key=eb9da7a21efe1cb3a63fa06719ce7e6b", function(error, response, body) {<br>
+                            &nbsp;request("https://api.brewerydb.com/v2/beer/" + req.params.id + "/ingredients?key=[KEY_HERE]", function(error, response, body) {<br>
                             &nbsp;&nbsp;if (!error && response.statusCode === 200) {<br> 
                             &nbsp;&nbsp;&nbsp;res.send(JSON.parse(body));<br> 
                             &nbsp;&nbsp;}<br>   
@@ -294,6 +294,17 @@
                     </p>
                 </div>
             </div><!-- ingredients -->
+
+             <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Returning Data about Hops!</h3>
+                </div>
+                <div class="panel-body">
+                <p>
+                    I'm not a beer expert by any means, but hops make beer...hoppy. 
+                </p>
+                <p>Using a <code>GET</code> request in the form of <code>/hop/:hopId</code> allows us to get a specific hop by ID.</p>
+                </div>
             
 
     </div><!-- container -->
