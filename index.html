@@ -161,11 +161,8 @@
                             &nbsp;&nbsp;brewdb.breweries.getById(req.params.id, {}, function(err, brewery) {<br>
                             &nbsp;&nbsp;&nbsp;if(err) {<br>
                             &nbsp;&nbsp;&nbsp;&nbsp;console.error(err);<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;res.status(500).send("An error occurred"); <br>
-                            &nbsp;&nbsp;&nbsp;} else if(brewery) { // we found the brewery<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;res.send(brewery);<br>
                             &nbsp;&nbsp;&nbsp;} else {<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;res.status(404).send('We could not that specific brewery!');<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;res.send(brewery);<br>
                             &nbsp;&nbsp;&nbsp;}<br>
                             &nbsp;&nbsp;})<br>
                             });
@@ -184,12 +181,119 @@
                             This returns a JSON response like so: 
                             <img src="images/redlight-json.jpg" class="img-responsive" alt="Responsive image">
                         </p>
+                        <p>
+                            <div class="alert alert-info" role="alert"><p>
+                                <p>
+                                    <strong>THINK ABOUT IT:</strong> 
+                                    <br>How could something like this be used a live web application?
+                                    <br>Maybe a user is navigating your epic BEER-INFO-FOR-US website. They type in 'Orlando Florida breweries' in your form field and Red Light Red Light shows up when they press the submit button. They're intrigued by the name, but they don't know a thing about the brewery iteself. 
+                                    <p>
+                                        In our above JSON response, <code>description</code> was one of the property names. If you wanted your website (ie, maybe when the user is on your Redlight Redlight view and there's a link to Description), you could query <strong>just</strong> the description like so:
+                                        <p>
+                                            <code>res.send(brewery.description);</code> instead of just <code>res.send(brewery);</code> which would return the full response. See how easy that is?
+                                        </p>
+                                        
+                                    </p>
+                                </p>
+                            </div>
+                        </p>
                     </p>
+                </div>
+            </div>
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Returning Data about a Beer</h3>
+                </div>
+                <div class="panel-body">
+                    <p>
+                        We've now gone through how to query information about a brewery. Now let's return data about an actual beer!
+                    </p>
+                    <p>
+                        Similar to breweries, obtaining information on a beer is quite similar:
+                    </p>
+                    <p>
+                        <code>
+                            app.get('/beer/:id', function(req,res){<br>
+                            &nbsp;&nbsp;brewdb.beer.getById(req.params.id, {}, function(err, beer){<br>
+                            &nbsp;&nbsp;&nbsp;if (err){<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;console.log(err);<br>
+                            &nbsp;&nbsp;&nbsp;} else {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;res.send(beer);<br>
+                            &nbsp;&nbsp;&nbsp;}<br>
+                            &nbsp;&nbsp;});<br>
+                            });<br>
+                        </code>
+                    </p>
+                    <p>
+                        The API call for beer is very similar to breweries. Instead of passing the <code>brewdb</code> object a <code>breweries</code> attribute, we will pass
+                        it a <code>beer</code> one.
+
+                    </p>
+                    <p>
+                        Navigate to: <code>http://localhost:3000/beer/KLOHSg</code>
+                    </p>
+                    <p>
+                        This returns a JSON response like so: 
+                        <img src="images/afd-beer.jpg" class="img-responsive" alt="Responsive image">
+                    </p>
+                    <p>
+                        You will notice this JSON response is a bit more complex than the breweries example above. This object has something called <strong>nested attributes</strong>.
+                        Intimidated? Don't be! Just like our <code>brewery.description</code> example above, we will 'dig' deeper into the attributes, to obtain the category name of the style of beer, like so:
+                    <p>
+                        <code>res.send(beer.style.category.name)</code> and this will return <strong>Irish Origin Ales</strong>.
+                    </p>
+                    
                 </div>
             </div>
             
             
-        
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Returning a Beer's Ingredients</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="alert alert-danger" role="alert">
+                        Unfortunately, the <strong>brewerydb-node</strong> wrapper isn't completely exhaustive. In other words, it is still in its infancy phase and not all BreweryDB API methods can be used with it. So let's return some ingredients without the wrapper!
+                    </div>
+                    <p>
+                        We will need to add another module to our application, the <code>request</code> module, which can be found <a href="https://github.com/request/request">here</a>.
+                    </p>
+                    <p>
+                        Let's add it our .js file up top by doing: 
+                    </p>
+                    <p>
+                        <code>var request = require('request');</code>
+                    </p>
+                    <p>
+                        Instead of utilizing a <code>brewdb</code> object this time around, we will pass it to the <code>request</code> object.
+                    </p>
+                    <p>
+                        <code>
+                            app.get('/beer/:id/ingredients', function(req, res){<br>
+                            &nbsp;request("https://api.brewerydb.com/v2/beer/" + req.params.id + "/ingredients?key=eb9da7a21efe1cb3a63fa06719ce7e6b", function(error, response, body) {<br>
+                            &nbsp;&nbsp;if (!error && response.statusCode === 200) {<br> 
+                            &nbsp;&nbsp;&nbsp;res.send(JSON.parse(body));<br> 
+                            &nbsp;&nbsp;}<br>   
+                            &nbsp;});<br> 
+                            }); 
+                        </code>
+                    </p>
+                    <div class="alert alert-info" role="alert">
+                        <strong>A NOTE ON ROUTES:</strong> Note that for returning ingredients we have constructed our route in the form of <code>/beer/:id/ingredients</code>. This is styled based on the Ingredient Endpoint documentation, see <a href="http://www.brewerydb.com/developers/docs-endpoint/beer_ingredient">here</a>.
+                    </div>
+                    <p>
+                        Running <code>http://localhost:3000/beer/WHQisc/ingredients</code> in the browser will return a lengthy JSON response:
+                    </p>
+                    <p>
+                        <img src="images/ingredients1.jpg" class="img-responsive" alt="Responsive image">
+                    </p>
+                    <p>
+                        Note that <code>JSON.parse()</code> was not necessary to use in this case, but makes it easier to analyze the ingredient information. See documentation <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse">here</a>.
+                    </p>
+                </div>
+            </div><!-- ingredients -->
             
 
     </div><!-- container -->
