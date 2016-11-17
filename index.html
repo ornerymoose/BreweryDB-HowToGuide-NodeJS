@@ -144,9 +144,50 @@
                     </p>
                     <p>Replace <code>your-key-here</code> with your actual API key you obtained when signing up. Note that this object expects a <code>string</code> parameter.</p>
                     
-                    
                 </div>
             </div>
+
+             <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Returning Data about a Brewery</h3>
+                </div>
+                <div class="panel-body">
+                    <p>
+                        After setting up your BreweryDB object, we are now ready to return some data using node.js
+                    </p>
+                    <p>
+                        <code>
+                            app.get('/breweries/:id', function(req,res){<br>
+                            &nbsp;&nbsp;brewdb.breweries.getById(req.params.id, {}, function(err, brewery) {<br>
+                            &nbsp;&nbsp;&nbsp;if(err) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;console.error(err);<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;res.status(500).send("An error occurred"); <br>
+                            &nbsp;&nbsp;&nbsp;} else if(brewery) { // we found the brewery<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;res.send(brewery);<br>
+                            &nbsp;&nbsp;&nbsp;} else {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;res.status(404).send('We could not that specific brewery!');<br>
+                            &nbsp;&nbsp;&nbsp;}<br>
+                            &nbsp;&nbsp;})<br>
+                            });
+                        </code>
+                    </p>        
+                    <p>
+                        Let's break down what is going on above. We are using <code>app.get()</code> which essentially <strong>gets</strong> a URL and returns something.
+                        <p><code>brewdb.breweries.getById(req.params.id...</code> is where the magic happens. <code>getById</code> is expecting an ID as a parameter, and if we don't pass it a valid brewery ID we will get an error.</p>The route, as stated on the first line, must come in the form of <code>SERVER_URL/breweries/ID_PARAM</code>.
+                    </p>
+                    <p>
+                        If you go to the BreweryDB <a href="http://www.brewerydb.com/">website</a>, you can get the ID of a brewery. Let's try out one of my favorite in the Central Florida area, <a href="http://www.brewerydb.com/brewery/tZN5nt">Redlight Redlight Beer Parlour and Brewery</a>. This brewery has an ID of <code>tZN5nt</code>. So our URL would be (and make sure to restart <code>app.js</code>!):
+                        <p>
+                            <code>localhost:3000/breweries/tZN5nt</code>
+                        </p>
+                        <p>
+                            This returns a JSON response like so: 
+                            <img src="images/redlight-json.jpg" class="img-responsive" alt="Responsive image">
+                        </p>
+                    </p>
+                </div>
+            </div>
+            
             
         
             
@@ -162,7 +203,7 @@
     <script src="js/ie10-viewport-bug-workaround.js"></script>
     <script src="js/select2.min.js"></script>
     <script type="text/javascript">
-        console.log("test");
+        
     </script>
   </body>
 </html>
