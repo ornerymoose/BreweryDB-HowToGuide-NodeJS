@@ -36,26 +36,10 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li class="dropdown-header">Nav header</li>
-                            <li><a href="#">Separated link</a></li>
-                            <li><a href="#">One more separated link</a></li>
-                        </ul>
-                    </li>
+
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="../navbar/">Default</a></li>
-                    <li class="active"><a href="./">Static top <span class="sr-only">(current)</span></a></li>
-                    <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+                    <li><a href="">OSU CS290, Fall 2016, David Pardy</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -76,8 +60,92 @@
                     Given the ever increasing popularity of javascript being utilized on the server side, I thought I'd discuss some of BreweryDB's methods and responses using <strong>node.js</strong>.
                 </p>
             </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sign Up for an Account</h3>
+                </div>
+                <div class="panel-body">
+                    <p>
+                        First, you will need to go <a href="https://www.brewerydb.com/auth/signup/ref/apps">here</a> to sign up for a BreweryDB account. This will allow you to get an API key to leverage the API.
+                    </p>
+                    <p>With out upgrading to premium, you can register up to two applications. Once this is done, an API key will be generated. I have blued out my actual API key.</p>
+                    <img src="images/register-apps.jpg" class="img-responsive" alt="Responsive image">
+                    <br>
+                    <div class="alert alert-danger" role="alert">NOTE: API keys should always be kept private. In a production environment, you could set your key as an environment variable or maybe even a configuration file of sorts that is listed in your <code>.gitignore</code> file.</div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Setting up a Node.js Application Using Express</h3>
+                </div>
+                <div class="panel-body">
+                    <p>
+                        Express is a minimal and flexible Node.js web application framework that provides a robust set of features to develop web applications. We could write web applications without Express, but utilizing it takes away quite a bit of pain of having to write boilerplate code. 
+                    </p>
+                    <p>
+                        Create a new folder from the directory of your choice in terminal,</p>
+                        <p><code>mkdir NodeBreweryDbApp</code>. <code>cd</code> into that.</p>
+                        <p><code>touch app.js</code>This will create a file called app.js where all server-side javascript will reside.</p>
+                        <p><code>npm init</code> will create a <code>package.json</code> file which handles all our dependencies. Press enter on all the prompts as those details are not important at this point.</p>
+                        <p><code>npm install express --save</code> will add Express to our <code>package.json</code> file.</p>
+                        <p>Open up <code>app.js</code> in the text editor of your choice and add the following:</p>
+                        <p>
+                            <code>
+                                var express = require('express');<br>
+                                var app = express();<br>
+                                app.set('port', 3000);<br><br>
+
+                                app.get('/', function(req, res){<br>
+                                    &nbsp;&nbsp;res.send('hello world!');<br>
+                                });
+                                <br><br>
+                                app.listen(app.get('port'), function(){<br>
+                                &nbsp;&nbsp;console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');<br>
+                                });
+                            </code>
+                        </p>
+                        <p>
+                            Save <code>app.js</code>.If you now run <code>node app.js</code> from your command line, you'll see the above log message and can now navigate to <code>localhost:3000</code> and see the <strong>hello world!</strong> message. We now have a functioning web application!
+                        </p>
+                    </p>
+                    <p>
+                        You'll see a link on the left side of the page titled 'Service Libraries'. Fortunately there is a node.js wrapper called <strong>brewerydb-node</strong>. It does exactly what we need it to do: get data. This
+                        will allow us to get up and running quickly. Open up your terminal of choice and install it with:
+                        <div>
+                            <code>npm install brewerydb-node --save</code>
+                        </div>
+                        
+                    </p>
+                    
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Connecting to the API</h3>
+                </div>
+                <div class="panel-body">
+                    <p>
+                        After you obtain your API key, head over to the API Documentation page which can be found <a href="http://www.brewerydb.com/developers/docs">here</a>.
+                    </p>
+                    <p>
+                        You'll see a link on the left side of the page titled 'Service Libraries'. Fortunately there is a node.js wrapper called <strong>brewerydb-node</strong>. It does exactly what we need it to do: get data. This
+                        will allow us to get up and running quickly. Open up your terminal of choice and install it with:
+                        <div>
+                            <code>npm install brewerydb-node</code>
+                        </div>
+                        
+                    </p>
+                    
+                </div>
+            </div>
+            
         
-    </div>
+            
+
+    </div><!-- container -->
 
     <!-- Bootstrap core JavaScript ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
