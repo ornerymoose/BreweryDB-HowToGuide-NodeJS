@@ -57,7 +57,7 @@
                     guide. As someone who wanted to utilize this API as a novice developer, the documentation may be overwhelming.                
                 </p>
                 <p>
-                    Given the ever increasing popularity of javascript being utilized on the server side, I thought I'd discuss some of BreweryDB's methods and responses using <strong>node.js</strong>.
+                    Given the ever increasing popularity of javascript being utilized on the server side, I thought I'd discuss some of BreweryDB's methods and responses using <strong>node.js</strong>. In this guide we will get a node.js application up and running and be able to query some data using different routes. 
                 </p>
             </div>
 
@@ -93,14 +93,16 @@
                         <p>Open up <code>app.js</code> in the text editor of your choice and add the following:</p>
                         <p>
                             <code>
-                                var express = require('express');<br>
-                                var app = express();<br>
-                                app.set('port', 3000);<br><br>
+                                var express = require('express'); //the express module is required to use express<br>
+                                var app = express(); //set app to express<br>
+                                app.set('port', 3000); //set to a port number of your liking<br><br>
 
+                                //fetches the root route and provides a callback function<br>
                                 app.get('/', function(req, res){<br>
-                                    &nbsp;&nbsp;res.send('hello world!');<br>
+                                    &nbsp;&nbsp;res.send('hello BreweryDB!'); //sends a response to the browser. What's happening here is the request-response cycle.<br>
                                 });
                                 <br><br>
+                                //listen for the port
                                 app.listen(app.get('port'), function(){<br>
                                 &nbsp;&nbsp;console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');<br>
                                 });
@@ -300,11 +302,39 @@
                     <h3 class="panel-title">Returning Data about Hops!</h3>
                 </div>
                 <div class="panel-body">
-                <p>
-                    I'm not a beer expert by any means, but hops make beer...hoppy. 
-                </p>
-                <p>Using a <code>GET</code> request in the form of <code>/hop/:hopId</code> allows us to get a specific hop by ID.</p>
+                    <p>
+                        I'm not a beer expert by any means, but hops make beer...hoppy. 
+                    </p>
+                    <p>Using a <code>GET</code> request in the form of <code>/hop/:hopId</code> allows us to get a specific hop by ID.</p>
+                    <p>
+                        <code>
+                        app.get('/hop/:id/', function(req, res){<br>
+                        &nbsp;request("https://api.brewerydb.com/v2/hop/" + req.params.id + "/?key=eb9da7a21efe1cb3a63fa06719ce7e6b", function(error, response, body) { <br>
+                        &nbsp;&nbsp;if (!error && response.statusCode === 200) { <br>
+                        &nbsp;&nbsp;&nbsp;res.send(JSON.parse(body)); <br>
+                        &nbsp;&nbsp;}   <br>
+                        &nbsp;}); <br>
+                        });                         
+                        </code>
+
+                    </p>
+                    <p>
+                        Navigate to: http://localhost:3000/hop/84 which will return the Mount Hood hop. If you haven't visited Mt. Hood, check it out! 
+                    </p>
+                    <p>
+                         <img src="images/hop84.jpg" class="img-responsive" alt="Responsive image">
+                    </p>
                 </div>
+            </div>
+
+            <div class="panel panel-success"> 
+                <div class="panel-heading"> 
+                    <h3 class="panel-title">Congrats! You made it!</h3> 
+                </div> 
+                <div class="panel-body"> 
+                    If you followed this guide closely, you should be able to query data about hops, breweries, beer, and beer ingredients using node.js server-side code and the Express framework. Feel free to explore the official documentation for other methods that can utilized when it comes to dealing with beer!
+                </div> 
+            </div>
             
 
     </div><!-- container -->
