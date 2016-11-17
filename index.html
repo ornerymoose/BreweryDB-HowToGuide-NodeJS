@@ -131,13 +131,19 @@
                         After you obtain your API key, head over to the API Documentation page which can be found <a href="http://www.brewerydb.com/developers/docs">here</a>.
                     </p>
                     <p>
-                        You'll see a link on the left side of the page titled 'Service Libraries'. Fortunately there is a node.js wrapper called <strong>brewerydb-node</strong>. It does exactly what we need it to do: get data. This
-                        will allow us to get up and running quickly. Open up your terminal of choice and install it with:
-                        <div>
-                            <code>npm install brewerydb-node</code>
-                        </div>
-                        
+                        Since we are using the <code>brewerydb-node</code> wrapper, we need to require the module in our code like so:
                     </p>
+                    <p>
+                        <code>var BreweryDb = require('brewerydb-node');</code>
+                    </p>
+                    <p>
+                        Then we will create a new BreweryDb object like so:
+                    </p>
+                    <p>
+                        <code>var brewdb = new BreweryDb('your-key-here');</code>
+                    </p>
+                    <p>Replace <code>your-key-here</code> with your actual API key you obtained when signing up. Note that this object expects a <code>string</code> parameter.</p>
+                    
                     
                 </div>
             </div>
